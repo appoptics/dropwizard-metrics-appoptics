@@ -1,6 +1,9 @@
 package io.dropwizard.metrics;
 
-import com.appoptics.metrics.reporter.*;
+import com.appoptics.metrics.reporter.AppopticsReporter;
+import com.appoptics.metrics.reporter.ExpandedMetric;
+import com.appoptics.metrics.reporter.MetricExpansionConfig;
+import com.appoptics.metrics.reporter.ReporterBuilder;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,19 +16,12 @@ import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-@JsonTypeName("librato")
-@Deprecated
-public class LibratoReporterFactory extends BaseReporterFactory {
-    private static final Logger log = LoggerFactory.getLogger(LibratoReporterFactory.class);
-
-    @JsonProperty
-    private String username;
+@JsonTypeName("appoptics")
+public class AppopticsReporterFactory extends BaseReporterFactory {
+    private static final Logger log = LoggerFactory.getLogger(AppopticsReporterFactory.class);
 
     @JsonProperty
     private String token;
-
-    @JsonProperty
-    private String source;
 
     @JsonProperty
     private Long timeout;
@@ -37,10 +33,7 @@ public class LibratoReporterFactory extends BaseReporterFactory {
     private String name;
 
     @JsonProperty
-    private String libratoUrl;
-
-    @JsonProperty
-    private String sourceRegex;
+    private String appopticsUrl;
 
     @JsonProperty
     private String prefixDelimiter;
@@ -50,9 +43,6 @@ public class LibratoReporterFactory extends BaseReporterFactory {
 
     @JsonProperty
     private PosterFactory poster;
-
-    @JsonProperty
-    private Boolean enableLegacy = true;
 
     @JsonProperty("tags")
     private Tagging tagging = new Tagging();
@@ -80,11 +70,6 @@ public class LibratoReporterFactory extends BaseReporterFactory {
     }
 
     public ScheduledReporter build(MetricRegistry registry) {
-        log.warn("**DEPRECATED** The librato reporter is deprecated, switch to the appoptics reporter");
-
-        if (source == null) {
-            source = System.getenv("LIBRATO_SOURCE");
-        }
         if (token == null) {
             token = System.getenv("LIBRATO_TOKEN");
         }
@@ -93,7 +78,6 @@ public class LibratoReporterFactory extends BaseReporterFactory {
         builder.setDurationUnit(getDurationUnit());
         builder.setFilter(getFilter());
         if (tagging != null) {
-            log.info("Tagging is enabled");
             for (String name : tagging.staticTags.keySet()) {
                 String value = tagging.staticTags.get(name);
                 if (value != null && value.length() > 0) {
@@ -108,8 +92,8 @@ public class LibratoReporterFactory extends BaseReporterFactory {
                 }
             }
         }
-        if (libratoUrl != null) {
-            builder.setUrl(libratoUrl);
+        if (appopticsUrl != null) {
+            builder.setUrl(appopticsUrl);
         }
         if (prefix != null) {
             builder.setPrefix(prefix);

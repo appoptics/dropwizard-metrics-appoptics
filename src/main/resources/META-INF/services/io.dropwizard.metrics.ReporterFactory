@@ -1,1 +1,2 @@
+io.dropwizard.metrics.AppopticsReporterFactory
 io.dropwizard.metrics.LibratoReporterFactory
