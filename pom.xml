@@ -9,11 +9,11 @@
     <groupId>com.appoptics.metrics</groupId>
     <artifactId>dropwizard-metrics-appoptics</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Metrics AppOptics Dropwizard Support</name>
+    <name>AppOptics Dropwizard Support</name>
     <url>https://github.com/appoptics/dropwizard-metrics-appoptics</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <metrics.appoptics.version>1.0.0-SNAPSHOT</metrics.appoptics.version>
+        <metrics.appoptics.version>1.0.1</metrics.appoptics.version>
         <dropwizard.metrics.version>1.0.3</dropwizard.metrics.version>
     </properties>
     <licenses>
