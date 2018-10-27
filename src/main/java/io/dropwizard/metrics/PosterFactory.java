@@ -1,7 +1,7 @@
 package io.dropwizard.metrics;
 
+import com.appoptics.metrics.client.IPoster;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.librato.metrics.client.IPoster;
 import io.dropwizard.jackson.Discoverable;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")

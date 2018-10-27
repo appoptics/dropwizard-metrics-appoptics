@@ -1,78 +1,61 @@
 ## Overview
 
-This project provides an easy way to send metrics from your Dropwizard project to Librato.  It automatically includes the <a href="https://github.com/librato/metrics-librato">metrics-librato</a> library and sets up the reporter based on your application YAML config.  For more information on how you can use <a href="https://github.com/librato/metrics-librato">metrics-librato</a> at runtime, please see some <a href="https://github.com/librato/metrics-librato#fluent-helper">example usages</a>.
+This project provides an easy way to send metrics from your Dropwizard project 
+to AppOptics.  It automatically includes the 
+[metrics-appoptics](https://github.com/appoptics/metrics-appoptics) library and 
+sets up the reporter based on your application YAML config.  For more information 
+on how you can use [metrics-appoptics](https://github.com/appoptics/metrics-appoptics)
+at runtime, please see some [example usages](https://github.com/appoptics/metrics-appoptics#fluent-helper).
 
 ## Usage
 
-There are two steps. First, you must add the `dropwizard-metrics-librato` Maven dependency to your POM file. Second,
-the application config YAML needs to be updated to configure the Librato Reporter, which will send your Metrics
-data to Librato.
+There are two steps. First, you must add the `dropwizard-metrics-appoptics` Maven dependency to your POM file. Second,
+the application config YAML needs to be updated to configure the AppOptics Reporter, which will send your Metrics
+data to AppOptics.
 
-First, add the `dropwizard-metrics-librato` dependency in your POM:
+First, add the `dropwizard-metrics-appoptics` dependency in your POM:
 
 ### For Dropwizard 1.x and greater
 
-    <dependency>
-        <groupId>com.librato.metrics</groupId>
-        <artifactId>dropwizard-metrics-librato</artifactId>
-        <version>10.2.0.4</version>
-    </dependency>
+> Unfortunately we don't support versions prior to Dropwizard 1.x
 
-### For earlier than Dropwizard 1.x
+Find the latest [version here](https://search.maven.org/search?q=g:com.appoptics.metrics%20AND%20a:dropwizard-metrics-appoptics).
 
     <dependency>
-        <groupId>com.librato.metrics</groupId>
-        <artifactId>dropwizard-metrics-librato</artifactId>
-        <version>1.9.1.12</version>
+        <groupId>com.appoptics.metrics</groupId>
+        <artifactId>dropwizard-metrics-appoptics</artifactId>
+        <version>1.0.0</version>
     </dependency>
+
 
 Next, add a `metrics` configuration element to your YAML config file:
 
     metrics:
       reporters:
-        - type: librato
-          username: "<Librato Email>"
-          token: "<Librato API Token>"
-          source: "<Source Identifier (usually hostname)>"
-          timeout: [optional (int), number of seconds, defaults to 5]
-          prefix: [optional (string), prepended to metric names]
-          name: [optional (string), name of the reporter]
-
-
-That's it.  Once your application starts, your metrics should soon appear in Librato.
-
-## Environment Variables
-
-If you wish to not have your username, token, or source in the configuration,
-you can alternatively supply them by setting the `LIBRATO_USERNAME`,
-`LIBRATO_TOKEN`, and `LIBRATO_SOURCE` environment variables, respectively
-
-## Tagging Support
-
-If you'd like to participate in our tagging beta, please email support@librato.com to be
-added.  Once this is done, you may update your yaml file:
-
-    metrics:
-      reporters:
-        - type: librato
-          username: "<Librato Email>"
-          token: "<Librato API Token>"
-          source: "<Source Identifier (usually hostname)>"
-          timeout: [optional (int), number of seconds, defaults to 5]
-          prefix: [optional (string), prepended to metric names]
-          name: [optional (string), name of the reporter]
+        - type: appoptics
+          token: "<AppOptics API Token>"
           tags:
-            enabled: true
             static:
-                service: "my-auth-service"
-                environment: "staging"
+              tier: webapp
             environment:
-                node: NODE_NAME
+              host: NODE_NAME
+              ...
+          timeout: [optional (int), number of seconds, defaults to 5]
+          prefix: [optional (string), prepended to metric names]
+          name: [optional (string), name of the reporter]
 
-The static tags are completely defined in the yaml file.  The environment tags' names are also
+
+That's it.  Once your application starts, your metrics should soon appear in AppOptics.
+
+*The static tags are completely defined in the yaml file.  The environment tags' names are also
 defined in the yaml file, but their values are determined by the environment variables at the
-time the Librato reporter is created.  In this case, the environment variable with the name 
-`NODE_NAME` would be queried and then assigned to the tag name `node`.
+time the AppOptics reporter is created.  In this case, the environment variable with the name 
+`NODE_NAME` would be queried and then assigned to the tag name `host`.*
+
+## Alternative token config
+
+If you wish to not have your token in the configuration, you can alternatively
+set it with the `APPOPTICS_TOKEN` environment variable.
 
 ## Whitelist / Blacklist
 
@@ -81,10 +64,9 @@ and Meter.  If you wish to whitelist only certain metrics, you can do so like th
 
     metrics:
       reporters:
-        - type: librato
-          username: "<Librato Email>"
-          token: "<Librato API Token>"
-          source: "<Source Identifier (usually hostname)>"
+        - type: appoptics
+          token: "<AppOptics API Token>"
+          tags: ...
           timeout: [optional (int), number of seconds, defaults to 5]
           prefix: [optional (string), prepended to metric names]
           name: [optional (string), name of the reporter]
@@ -114,11 +96,6 @@ and Meter.  If you wish to whitelist only certain metrics, you can do so like th
  * RATE_15_MINUTE
 
  Note that you cannot supply both `metricWhitelist` and `metricBlacklist`.
-
-
-## Notes
-
-For each logical application, it is highly recommend you use a `prefix` to distinguish common sets of metrics.
 
 ## Contributors
 
