@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.appoptics.metrics</groupId>
     <artifactId>dropwizard-metrics-appoptics</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>AppOptics Dropwizard Support</name>
     <url>https://github.com/appoptics/dropwizard-metrics-appoptics</url>
     <properties>
