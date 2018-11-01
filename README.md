@@ -24,7 +24,7 @@ Find the latest [version here](https://search.maven.org/search?q=g:com.appoptics
     <dependency>
         <groupId>com.appoptics.metrics</groupId>
         <artifactId>dropwizard-metrics-appoptics</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </dependency>
 
 
