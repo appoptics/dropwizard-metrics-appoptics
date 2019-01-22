@@ -8,7 +8,7 @@
     <url>https://github.com/appoptics/dropwizard-metrics-appoptics</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <metrics.appoptics.version>1.0.4</metrics.appoptics.version>
+        <metrics.appoptics.version>1.0.5</metrics.appoptics.version>
         <dropwizard.metrics.version>1.2.9</dropwizard.metrics.version>
     </properties>
     <licenses>
